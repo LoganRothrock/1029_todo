@@ -5,6 +5,7 @@ import {ToDoBanner} from './ToDoBanner';
 import {ToDoRow} from './ToDoRow';
 import {ToDoCreater} from './ToDoCreater';
 import 'bootstrap/dist/css/bootstrap.css';
+import {VisibilityControl} from './VisibilityControl';
 
 export default class App extends Component {
   //  Above we have created a class called App the extends the functionality of the Component class
@@ -95,7 +96,8 @@ export default class App extends Component {
         userName : "Default UserName",
         todoItems: [
           {action: "Default todo", done: false}
-        ]
+        ],
+        showCompleted: true // Feature 8
       }
     );
   }
@@ -123,9 +125,16 @@ export default class App extends Component {
           {this.todoTableRows(false)}
         </tbody>
       </table>
-      <div className="bg-secondary text-white text-center p-2"></div>
-
-    {/* Features 6 & 7 */}
+      <div className="bg-secondary text-white text-center p-2">
+        {/* Feature 8 */}
+      <VisibilityControl
+        description = "Completed ToDoItems"
+        isChecked = {this.state.showCompleted}
+        callback = {checked => this.setState({showCompleted: checked})}
+      />
+      </div>
+            
+      {this.state.showCompleted &&
     <table className="table table-striped table-bordered">
     <thead>
       <th>Description</th>
@@ -135,6 +144,7 @@ export default class App extends Component {
       {this.todoTableRows(true)}
     </tbody>
   </table>
+      }
     </div>
 
    
