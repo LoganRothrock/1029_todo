@@ -53,7 +53,8 @@ export default class App extends Component {
       todoItems: this.state.todoItems.map(
         x => x.action == checkedTodoItem.action ? { ...x, done: !x.done} : x
       )
-    }
+    },
+    () => localStorage.setItem("storedTodos", JSON.stringify(this.state)) 
   );
 
   //  Feature 5d
@@ -72,11 +73,32 @@ export default class App extends Component {
           { action: newToDoAction, done: false}
         ]
         // By default every new todo should not be done- in other words it's done property should have a value of false.
-      })
-    }
+      },
+      () => localStorage.setItem("storedTodos", JSON.stringify(this.state))
+      ) // END of setState
+    } // END of IF Block
 
   }
 
+  // Feature 5e
+  //  The componentDidMount method below is a built in react method to handle logic for when the APP Components "mounts" or "loads"
+  //  The localStorage object is a React built in object that allows persistent local storage much like how cookies work
+  //  localStorage reference: https://programmingwithmosh.com/react/localstorage-react/
+
+  componentDidMount = () => {
+    // steredData contains the value of the sata in the storedToDos local storage
+    let storedData = localStorage.getItem("storedTodos");
+
+    this.setState(
+      storedData != null ? JSON.parse(storedData) : 
+      {
+        userName : "Default UserName",
+        todoItems: [
+          {action: "Default todo", done: false}
+        ]
+      }
+    );
+  }
 
   render = () =>
     <div id="startingPoint">
